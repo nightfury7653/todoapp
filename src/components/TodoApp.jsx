@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PlusCircle, Edit2, Trash2, CheckCircle, Circle } from 'lucide-react';
 
 const TodoApp = () => {
   const [todos, setTodos] = useState(() => {
@@ -60,44 +61,49 @@ const TodoApp = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50">
-      {/* Header Section */}
-      <div className="bg-gradient-to-r from-blue-500 to-green-500 py-6 px-4">
-        <div className="container mx-auto">
-          <h1 className="text-4xl font-bold text-white text-center">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4">
+      <div className="max-w-3xl mx-auto">
+        {/* Header Section */}
+        <div className="bg-gradient-to-r from-blue-600 to-green-500 rounded-2xl shadow-xl p-8 mb-8">
+          <h1 className="text-4xl md:text-5xl font-bold text-white text-center">
             Task Manager
           </h1>
-          <p className="text-blue-50 text-center mt-2 text-lg">
-            {todos.filter(t => !t.completed).length} tasks remaining
-          </p>
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="container mx-auto px-4 py-8">
-        {/* Add Todo Form */}
-        <div className="bg-white rounded-xl shadow-lg mb-8 overflow-hidden">
-          <form onSubmit={addTodo} className="p-6">
-            <div className="flex gap-3">
-              <input
-                type="text"
-                value={inputValue}
-                onChange={(e) => setInputValue(e.target.value)}
-                placeholder="What needs to be done?"
-                className="flex-1 px-6 py-4 rounded-lg text-black bg-gray-50 border border-gray-200 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-200 transition-all text-lg"
-              />
-              <button
-                type="submit"
-                className="px-8 py-4 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:ring-4 focus:ring-blue-200 transition-all text-lg"
-              >
-                Add Task
-              </button>
+          <div className="flex justify-center items-center mt-4 space-x-4">
+            <div className="bg-white/20 rounded-full px-6 py-2">
+              <p className="text-white text-lg">
+                {todos.filter(t => !t.completed).length} tasks remaining
+              </p>
             </div>
+            <div className="bg-white/20 rounded-full px-6 py-2">
+              <p className="text-white text-lg">
+                {todos.filter(t => t.completed).length} completed
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Add Todo Form */}
+        <div className="bg-white rounded-2xl shadow-lg mb-8 p-6">
+          <form onSubmit={addTodo} className="flex flex-col md:flex-row gap-4">
+            <input
+              type="text"
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="What needs to be done?"
+              className="flex-1 px-6 py-4 rounded-xl text-gray-700 bg-gray-50 border-2 border-gray-100 focus:outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all text-lg"
+            />
+            <button
+              type="submit"
+              className="flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 focus:ring-4 focus:ring-blue-200 transition-all text-lg group"
+            >
+              <PlusCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
+              <span className="hidden md:inline">Add Task</span>
+            </button>
           </form>
         </div>
 
         {/* Todo List */}
-        <div className="bg-white rounded-xl shadow-lg overflow-hidden">
+        <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
           <div className="divide-y divide-gray-100">
             {todos.map(todo => (
               <div
@@ -107,48 +113,54 @@ const TodoApp = () => {
                 }`}
               >
                 {editingId === todo.id ? (
-                  <div className="flex gap-3">
+                  <div className="flex flex-col md:flex-row gap-4">
                     <input
                       type="text"
                       value={editValue}
                       onChange={(e) => setEditValue(e.target.value)}
-                      className="flex-1 text-black px-6 py-3 rounded-lg bg-white border border-gray-200 focus:outline-none focus:border-blue-500 text-lg"
+                      className="flex-1 px-6 py-3 rounded-xl text-gray-700 bg-white border-2 border-gray-200 focus:outline-none focus:border-blue-400 text-lg"
                       autoFocus
                     />
                     <button
                       onClick={() => updateTodo(todo.id)}
-                      className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all text-lg"
+                      className="px-6 py-3 bg-green-500 text-white rounded-xl hover:bg-green-600 transition-all text-lg flex items-center justify-center gap-2"
                     >
+                      <CheckCircle className="w-5 h-5" />
                       Save
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center gap-4">
-                    <label className="flex items-center flex-1 cursor-pointer">
-                      <input
-                        type="checkbox"
-                        checked={todo.completed}
-                        onChange={() => toggleComplete(todo.id)}
-                        className="w-6 h-6 rounded border-gray-300 text-blue-500 focus:ring-blue-200"
-                      />
+                  <div className="flex flex-col md:flex-row items-center gap-4">
+                    <label className="flex items-center flex-1 cursor-pointer group">
+                      <div 
+                        onClick={() => toggleComplete(todo.id)}
+                        className="relative flex items-center justify-center"
+                      >
+                        {todo.completed ? 
+                          <CheckCircle className="w-6 h-6 text-green-500 transition-all" /> :
+                          <Circle className="w-6 h-6 text-gray-400 group-hover:text-blue-400 transition-all" />
+                        }
+                      </div>
                       <span className={`ml-4 text-lg ${
                         todo.completed ? 'line-through text-gray-400' : 'text-gray-700'
                       }`}>
                         {todo.text}
                       </span>
                     </label>
-                    <div className="flex gap-3">
+                    <div className="flex gap-3 w-full md:w-auto">
                       <button
                         onClick={() => startEdit(todo)}
-                        className="px-4 py-2 text-base bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all"
+                        className="flex-1 md:flex-initial px-4 py-2 text-base bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-all flex items-center justify-center gap-2"
                       >
-                        Edit
+                        <Edit2 className="w-4 h-4" />
+                        <span className="hidden md:inline">Edit</span>
                       </button>
                       <button
                         onClick={() => deleteTodo(todo.id)}
-                        className="px-4 py-2 text-base bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all"
+                        className="flex-1 md:flex-initial px-4 py-2 text-base bg-red-50 text-red-600 rounded-lg hover:bg-red-100 transition-all flex items-center justify-center gap-2"
                       >
-                        Delete
+                        <Trash2 className="w-4 h-4" />
+                        <span className="hidden md:inline">Delete</span>
                       </button>
                     </div>
                   </div>
@@ -159,24 +171,25 @@ const TodoApp = () => {
 
           {/* Footer */}
           {todos.length > 0 && (
-            <div className="p-6 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
-              <span className="text-base text-gray-600">
-                {todos.filter(t => t.completed).length} completed
-              </span>
+            <div className="p-6 bg-gray-50 border-t border-gray-100">
               <button
                 onClick={clearCompleted}
-                className="px-4 py-2 text-base text-blue-600 hover:bg-blue-50 rounded-lg transition-all"
+                className="w-full md:w-auto px-6 py-3 text-base text-blue-600 hover:bg-blue-50 rounded-lg transition-all flex items-center justify-center gap-2"
               >
-                Clear completed
+                <Trash2 className="w-4 h-4" />
+                Clear completed tasks
               </button>
             </div>
           )}
 
           {/* Empty State */}
           {todos.length === 0 && (
-            <div className="p-12 text-center text-gray-500">
-              <p className="text-xl">Your task list is empty</p>
-              <p className="text-base mt-2">Add some tasks to get started!</p>
+            <div className="p-12 text-center">
+              <div className="bg-blue-50 rounded-2xl p-8 inline-block">
+                <CheckCircle className="w-16 h-16 text-blue-400 mx-auto mb-4" />
+                <p className="text-xl font-semibold text-gray-700">Your task list is empty</p>
+                <p className="text-base mt-2 text-gray-500">Add some tasks to get started!</p>
+              </div>
             </div>
           )}
         </div>

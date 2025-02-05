@@ -39,7 +39,7 @@ npm run dev
 
 4. Open browser and visit `http://localhost:5173`
 
-### 🐳 Docker Setup
+<!-- ### 🐳 Docker Setup
 
 #### Build the image
 ```bash
@@ -57,6 +57,10 @@ docker push your-docker-username/todoapp
 ```bash
 docker-compose up -d
 ```
+or 
+```bash
+docker compose up -d
+```
 
 3. Visit `http://localhost:3000` in your browser 🎉  [Edit the port in docker-compose.yaml file]
 
@@ -64,6 +68,10 @@ docker-compose up -d
 ```bash
 docker-compose down
 ```
+or
+```bash
+docker compose down
+``` -->
 
 ## 💻 Usage
 
@@ -73,8 +81,3 @@ docker-compose down
 - Delete a task: Click the Delete button
 - Clear completed: Click "Clear completed" at the bottom
 
-## 👤 Author
-
-**Ashiq Firoz**
-- Created: 2025-01-26
-- GitHub: [@ashiq-firoz](https://github.com/ashiq-firoz)
